@@ -1,8 +1,6 @@
 from contextlib import nullcontext as does_not_raise
 from datetime import timedelta
-
 import pytest
-
 from src.api import *
 
 
