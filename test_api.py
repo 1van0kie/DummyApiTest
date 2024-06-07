@@ -20,7 +20,7 @@ def user():
 def prints():
     print("Тесты начаты")
     yield
-    print("Тесты завергены")
+    print("Тесты завершены")
 
 
 class TestAutorized:
