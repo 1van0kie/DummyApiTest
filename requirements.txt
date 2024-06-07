@@ -1,0 +1,6 @@
+allure-pytest
+requests
+pytest
+timedelta
+rednod
+string
