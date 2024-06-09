@@ -30,6 +30,16 @@ def get_user_id(response):
     return id
 
 
+def get_post_id(response):
+    id = response.json()['id']
+    return id
+
+
+def get_comment_id(response):
+    id = response.json()['id']
+    return id
+
+
 def update_user(user_id, gender, firstname, lastname, api_key='6647625fc4ca1909b00e8b2c'):
     resp = requests.put(f'{BASEURL}/user/{user_id}', headers={'app-id': api_key},
                         json={'gender': gender, 'firstName': firstname, 'lastName': lastname})
@@ -40,4 +50,10 @@ def create_post(user_id, json_data, api_key='6647625fc4ca1909b00e8b2c'):
     resp = requests.post(f'{BASEURL}/post/create', headers={'app-id': api_key},
                          json={'text': json_data['text'], 'likes': json_data['likes'], 'tags': ["dada", "netnet"],
                                'owner': user_id})
+    return resp
+
+
+def create_comment(post_id, user_id, message, api_key='6647625fc4ca1909b00e8b2c'):
+    resp = requests.post(f'{BASEURL}/comment/create', headers={'app-id': api_key},
+                         json={'message': message, 'post': post_id, 'owner': user_id})
     return resp

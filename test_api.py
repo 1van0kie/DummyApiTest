@@ -76,18 +76,22 @@ def test_update_user(user, gender, firstname, lastname, status):
                                                     ({"text": "", "likes": "1000000"}, does_not_raise()), ])
 def test_create_post(json_data, expectation):
     firstname = 'Vika'
-    json_user = create_user(firstname, lastname="Frolkina")
-    user_id = get_user_id(json_user)
+    user = create_user(firstname, lastname="Frolkina")
+    user_id = get_user_id(user)
     respo = create_post(user_id, json_data)
     with expectation:
         assert respo.json()[('owner')]['firstName'] == firstname
         assert respo.json()['text'] == json_data['text']
 
-# def test_update_user():
-#   my_cool_response1 = create_user()
-#  response2 = create_user()
-#
-#   user_id1 = get_user_id(my_cool_response1)
-#  user_id2 = get_user_id(response2)
-# print (f'{user_id1}+{user_id2}')
-# assert update_user(user_id).status_code == 200
+
+@pytest.mark.parametrize("message, status", [("Comment", 200),
+                                             ("Co", 200),
+                                             ("C", 200),
+                                             ("Коммент", 200), ])
+def test_create_comment(user, message, status):
+    json_data = {"text": "ghjh", "likes": "0"}
+    user_id = get_user_id(user)
+    post = create_post(user_id=user_id, json_data=json_data)
+    post_id = get_post_id(post)
+    comment = create_comment(post_id, user_id, message)
+    assert comment.status_code == status
